@@ -8,57 +8,93 @@
         margin: 0;
         padding: 0;
         background-color: black;
-        height: 100%;
         width: 100%;
+        height: 100%;
         overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     #video {
-        position: fixed;
-        top: 0;
-        left: 0;
         width: 100%;
         height: 100%;
-        object-fit: contain; /* cover OR contain depending on your preference */
+        object-fit: contain; /* use cover if you want full fill */
         background-color: black;
+    }
+    #startBtn {
+        position: absolute;
+        font-size: 2em;
+        padding: 1em 2em;
+        cursor: pointer;
+        z-index: 10;
     }
 </style>
 </head>
 <body>
 
-<video id="video" controls></video>
+<button id="startBtn">Start Presentation</button>
+<video id="video"></video>
 
 <script>
+const videoEl = document.getElementById("video");
+const startBtn = document.getElementById("startBtn");
+let videos = [];
+let index = 0;
+let preloadedVideos = [];
+
+// Load JSON
 fetch("videos.json")
-    .then(response => response.json())
-    .then(videos => {
-        let index = 0;
-        const videoEl = document.getElementById("video");
+  .then(res => res.json())
+  .then(data => {
+    videos = data;
 
-        function loadVideo(i) {
-            videoEl.src = videos[i].file;
-            videoEl.play().catch(() => {
-                console.log("Autoplay blocked, press play");
-            });
+    // Preload all videos
+    let loadedCount = 0;
+    videos.forEach((v, i) => {
+      const vid = document.createElement("video");
+      vid.src = v.file;
+      vid.preload = "auto";
+      vid.load();
+      vid.oncanplaythrough = () => {
+        loadedCount++;
+        if(loadedCount === videos.length){
+          startBtn.disabled = false;
+          startBtn.textContent = "Start Presentation";
         }
+      }
+      preloadedVideos.push(vid);
+    });
+  })
+  .catch(err => console.error("Failed to load videos.json", err));
 
-        loadVideo(index);
+// Function to load a video to the main player
+function loadVideo(i) {
+  videoEl.src = videos[i].file;
+  videoEl.play().catch(() => console.log("User needs to start playback"));
+}
 
-        // Keyboard navigation
-        document.addEventListener("keydown", e => {
-            if (e.key === "ArrowRight") {
-                index = (index + 1) % videos.length;
-                loadVideo(index);
-            } else if (e.key === "ArrowLeft") {
-                index = (index - 1 + videos.length) % videos.length;
-                loadVideo(index);
-            } else if (e.key === " ") { // space to pause/play
-                e.preventDefault();
-                if(videoEl.paused) videoEl.play();
-                else videoEl.pause();
-            }
-        });
-    })
-    .catch(err => console.error("Failed to load videos.json", err));
+// Start button click
+startBtn.addEventListener("click", () => {
+  startBtn.style.display = "none";
+  loadVideo(index);
+});
+
+// Keyboard navigation
+document.addEventListener("keydown", e => {
+  if (videoEl.src === "") return; // ignore keys before starting
+
+  if (e.key === "ArrowRight") {
+    index = (index + 1) % videos.length;
+    loadVideo(index);
+  } else if (e.key === "ArrowLeft") {
+    index = (index - 1 + videos.length) % videos.length;
+    loadVideo(index);
+  } else if (e.key === " ") {
+    e.preventDefault();
+    if(videoEl.paused) videoEl.play();
+    else videoEl.pause();
+  }
+});
 </script>
 
 </body>
