@@ -1,0 +1,29 @@
+
+[
+    {"title": "Titel Slide", "file": "TitleSlide.mp4"},
+    {"title": "Natur Fraktale", "file": "NaturFraktale.mp4"},
+    {"title": "Mathematische Fraktale", "file": "MathematischeFraktale.mp4"},
+    {"title": "Architektur Fraktale", "file": "ArchitekturFraktale.mp4"},
+    {"title": "Mandelbrot Erklärung", "file": "MandelbrotErklarung.mp4"},
+    {"title": "Mandelbrot Menge", "file": "MandelbrotMenge.mp4"},
+    {"title": "Escape Kriterium Erklärung", "file": "EscapeKriteriumErklaerung.mp4"},
+    {"title": "Escape Kriterium Visualisierung", "file": "EscapeKriterium.mp4"},
+    {"title": "Imaginary Numbers Fractal", "file": "ImaginaryNumbersFractal.mp4"},
+    {"title": "Fraktal Anwendungen", "file": "FraktalAnwendungen.mp4"},
+    {"title": "Wo Fraktale?", "file": "WoFraktale.mp4"},
+    {"title": "Fraktale Overview", "file": "Fraktale.mp4"},
+    {"title": "Hausdorff Dimension Intro", "file": "HausdorffDimensionIntro.mp4"},
+    {"title": "Hausdorff Dimension", "file": "HausdorffDimension.mp4"},
+    {"title": "Hausdorff Counting", "file": "HausdorffCounting.mp4"},
+    {"title": "Hausdorff Cube", "file": "HausdorffCube.mp4"},
+    {"title": "Hausdorff Line", "file": "HausdorffLine.mp4"},
+    {"title": "Hausdorff Square", "file": "HausdorffSquare.mp4"},
+    {"title": "Hausdorff Fractal", "file": "HausdorffFractal.mp4"},
+    {"title": "Hausdorff Fractal 2", "file": "HausdorffFractal2.mp4"},
+    {"title": "B Mandelbrot", "file": "BMandelbrot.mp4"},
+    {"title": "Küsten Quiz", "file": "KuestenQuiz.mp4"},
+    {"title": "Küsten Quiz Lösung", "file": "KuestenQuizLoesung.mp4"},
+    {"title": "Lösungs Slide", "file": "LoesungSlide.mp4"},
+    {"title": "Unendliches Küstenparadoxon", "file": "UnendlichesKuestenParadoxon.mp4"}
+]
+
