@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GFS Fraktale Videos</title>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        background-color: black;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-family: sans-serif;
+    }
+    #video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* change to 'cover' if you want fullscreen fill */
+        background-color: black;
+    }
+    #overlay {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0,0,0,0.8);
+        font-size: 2em;
+        cursor: pointer;
+        z-index: 10;
+    }
+</style>
+</head>
+<body>
+
+<div id="overlay">Click anywhere to start presentation</div>
+<video id="video" controls></video>
+
+<script>
+const videoEl = document.getElementById("video");
+const overlay = document.getElementById("overlay");
+
+// === VIDEO LIST ===
+const videos = [
+    {"title": "Titel Slide", "file": "videos/TitleSlide.mp4"},
+    {"title": "KuestenQuiz", "file": "videos/KuestenQuiz.mp4"},
+    {"title": "KuestenQuizLoesung", "file": "videos/KuestenQuizLoesung.mp4"},
+    {"title": "LoesungSlide", "file": "videos/LoesungSlide.mp4"},
+    {"title": "Unendliches Küstenparadoxon", "file": "videos/UnendlichesKuestenParadoxon.mp4"},
+    {"title": "Fraktale", "file": "videos/Fraktale.mp4"},
+    {"title": "Hausdorff Dimension", "file": "videos/Hausdorff_Dimension.mp4"},
+    {"title": "Hausdorff Dimension Intro", "file": "videos/HausdorffDimensionIntro.mp4"},
+    {"title": "Hausdorff Line", "file": "videos/HausdorffLine.mp4"},
+    {"title": "Hausdorff Square", "file": "videos/HausdorffSquare.mp4"},
+    {"title": "Hausdorff Cube", "file": "videos/HausdorffCube.mp4"},
+    {"title": "Hausdorff Fractal", "file": "videos/HausdorffFractal.mp4"},
+    {"title": "Hausdorff Fractal 2", "file": "videos/HausdorffFractal2.mp4"},
+    {"title": "Hausdorff Counting Small", "file": "videos/HausdorffCountingSmall.mp4"},
+    {"title": "Hausdorff Counting", "file": "videos/HausdorffCounting.mp4"},
+    {"title": "Wo Fraktale?", "file": "videos/WoFraktale.mp4"},
+    {"title": "Natur Fraktale", "file": "videos/NaturFraktale.mp4"},
+    {"title": "Mathematische Fraktale", "file": "videos/MathematischeFraktale.mp4"},
+    {"title": "Architektur Fraktale", "file": "videos/ArchitekturFraktale.mp4"},
+    {"title": "Imaginary Numbers Fractal", "file": "videos/ImaginaryNumbersFractal.mp4"},
+    {"title": "B Mandelbrot", "file": "videos/BMandelbrot.mp4"},
+    {"title": "Mandelbrot", "file": "videos/MandelbrotMenge.mp4"},
+    {"title": "Escape Kriterium Erklärung", "file": "videos/EscapeKriteriumErklaerung.mp4"},
+    {"title": "Escape Kriterium Visualisierung", "file": "videos/EscapeKriterium.mp4"},
+    {"title": "Fraktal Anwendungen", "file": "videos/FraktalAnwendungen.mp4"}
+];
+
+let index = 0;
+let preloadedVideos = [];
+
+// Preload videos
+let loadedCount = 0;
+videos.forEach(v => {
+    const vid = document.createElement("video");
+    vid.src = v.file;
+    vid.preload = "auto";
+    vid.load();
+    vid.oncanplaythrough = () => {
+        loadedCount++;
+        console.log(`Loaded ${v.title} (${loadedCount}/${videos.length})`);
+    };
+    preloadedVideos.push(vid);
+});
+
+// Function to load video
+function loadVideo(i) {
+    videoEl.src = videos[i].file;
+    videoEl.play().catch(() => console.log("Need user interaction for play"));
+}
+
+// Click anywhere overlay to start
+overlay.addEventListener("click", () => {
+    overlay.style.display = "none"; // hide overlay
+    loadVideo(index);
+});
+
+// Keyboard navigation
+document.addEventListener("keydown", e => {
+    if (videoEl.src === "") return;
+
+    if (e.key === "ArrowRight") {
+        index = (index + 1) % videos.length;
+        loadVideo(index);
+    } else if (e.key === "ArrowLeft") {
+        index = (index - 1 + videos.length) % videos.length;
+        loadVideo(index);
+    } else if (e.key === " ") {
+        e.preventDefault();
+        if(videoEl.paused) videoEl.play();
+        else videoEl.pause();
+    }
+});
+</script>
+
+</body>
+</html>
